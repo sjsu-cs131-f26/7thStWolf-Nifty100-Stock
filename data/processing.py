@@ -63,13 +63,17 @@ def calcuate_change(df):
 
 for file in files:
     # We can limit the amount of files processed if you guys want 
-    file_name = (file.name)
-    stock_name = file_name[:-11] # Extracts the stock name from the file name
+    if file.is_file() and file.suffix.lower() == ".csv":
+        file_name = (file.name)
+        stock_name = file_name[:-11] # Extracts the stock name from the file name
 
-    df = pd.read_csv(file)
-    df['name'] = stock_name
+        df = pd.read_csv(file)
+        df['name'] = stock_name
 
-    df = calcuate_change(df)
-    df = df.iloc[:, [6, 0, 1,2,3,4,5,7]]
-    file_loc = Path(target_path / file_name)
-    df.to_csv(file_loc, index=False)
+        df = calcuate_change(df)
+
+        cols = ["name"] + [c for c in df.columns if c not in ("name", "change")] + ["change"]
+
+        df = df.iloc[cols]
+        file_loc = Path(target_path / file_name)
+        df.to_csv(file_loc, index=False)
