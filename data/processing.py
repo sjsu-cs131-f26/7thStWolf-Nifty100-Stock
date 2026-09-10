@@ -26,8 +26,15 @@ Note:
     We can create another python script and used the Kaggle API for that tho.  
 
 
-"""
+Example Format:
+- Before Processing:
+| date | open | high | low | close| volume |
 
+- Post Processing
+
+| name | date | open | high | low | close | volume | change(categorical) |
+
+"""
 
 folder_name = sys.argv[1]
 target_location = sys.argv[2]
