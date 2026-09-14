@@ -35,9 +35,11 @@ Example Format:
 | name | date | open | high | low | close | volume | change(categorical) |
 
 """
-
-folder_name = sys.argv[1]
-target_location = sys.argv[2]
+try:
+    folder_name = sys.argv[1]
+    target_location = sys.argv[2]
+except:
+    raise ValueError("Missing arguments")
 
 cur = Path.cwd()
 
