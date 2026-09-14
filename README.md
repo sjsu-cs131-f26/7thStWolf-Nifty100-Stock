@@ -5,10 +5,11 @@
 | Name | Sprint 1 | Sprint 2 | Sprint 3 | Sprint 4 | Sprint 5 |
 |----------|----------|----------|----------|----------|----------|
 | Devarsh Shroff | PM  | -  | -  | -  | -  |
+| Vakeesan Moorthy  | DS  | -  | -  | -  | -  |
 | Rishil Nilesh Patel  | DE  | -  | -  | -  | -  |
 | Jeremy Lim  | DE | -  | -  | -  | -  |
 | Aydan Kaneshiro  | DE  | -  | -  | -  | -  |
-| Vakeesan Moorthy  | DS  | -  | -  | -  | -  |
+
 
 ## Dataset Choice
 The dataset chosen is the Nifty 100 1-Minute Dataset. It is composed of the top 100 stocks in India, which are part of the Nifty Index.
