@@ -1,16 +1,19 @@
-# 7thStWolf-Nifty100-Stock
+# Stock Analysis of Nifty 100 Index
 
-## Team Members
+
+## Team Members of The 7th St Wolf
 | Name | Sprint 1 | Sprint 2 | Sprint 3 | Sprint 4 | Sprint 5 |
 |----------|----------|----------|----------|----------|----------|
-| Devarsh Shroff | PM  | Row 1-3  | Row 1-4  | Row 1-5  | Row 1-6  |
-| Rishil Nilesh Patel  | DE  | Row 2-3  | Row 2-4  | Row 2-5  | Row 2-6  |
-| Jeremy Lim  | DE | Row 3-3  | Row 3-4  | Row 3-5  | Row 3-6  |
-| Aydan Kaneshiro  | DE  | Row 4-3  | Row 4-4  | Row 4-5  | Row 4-6  |
-| Vakeesan Moorthy  | DS  | Row 5-3  | Row 5-4  | Row 5-5  | Row 5-6  |
+| Devarsh Shroff | PM  | -  | -  | -  | -  |
+| Rishil Nilesh Patel  | DE  | -  | -  | -  | -  |
+| Jeremy Lim  | DE | -  | -  | -  | -  |
+| Aydan Kaneshiro  | DE  | -  | -  | -  | -  |
+| Vakeesan Moorthy  | DS  | -  | -  | -  | -  |
 
 ## Dataset Choice
-
+The dataset chosen is the Nifty 100 1-Minute Dataset. It is composed of the top 100 stocks in India, which are part of the Nifty Index.
+It is composed of around 100 CSV files, with each file being associated with one of the stocks that are part of the Nifty 100 Index.
+Each CSV file is composed of stock info (DateTime, Open, Low, High, Close, Volume) for every minute from February 2015 to April 2026.
 
 ## Product Vision
 
