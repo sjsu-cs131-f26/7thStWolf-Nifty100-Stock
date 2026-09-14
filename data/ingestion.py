@@ -1,7 +1,7 @@
 import kagglehub
 import os
 import sys
-
+import shutil
 try:
     folder_name = sys.argv[1]
 except:
@@ -10,4 +10,6 @@ except:
 raw_data_dir = os.path.join(os.getcwd(), folder_name)
 os.makedirs(raw_data_dir, exist_ok=True)
 
-path = kagglehub.dataset_download("debashis74017/stock-market-data-nifty-50-stocks-1-min-data", output_dir=raw_data_dir)
+path = kagglehub.dataset_download("oddrationale/mnist-in-csv")
+
+shutil.copytree(path, raw_data_dir, dirs_exist_ok=True)
