@@ -57,8 +57,11 @@ bins = [-float("inf"), -eps, eps,float("inf")]
 labels = ["Decreased", "None", "Increased"]
 
 def calcuate_change(df):
-    diff = df['close'].diff()
-    df["change"] = pd.cut(diff, bins=bins, labels=labels, include_lowest=True, right=True)
+    price_diff = df['close'].diff()
+    volume_dif = df['volume'].diff()
+    df["price_change"] = pd.cut(price_diff, bins=bins, labels=labels, include_lowest=True, right=True).fillna("None")
+    df["volume_change"] = pd.cut(volume_dif, bins=bins, labels=labels, include_lowest=True, right=True).fillna("None")
+
     return df
 
 
@@ -74,8 +77,8 @@ for file in files:
 
         df = calcuate_change(df)
 
-        cols = ["name"] + [c for c in df.columns if c not in ("name", "change")] + ["change"]
+        cols = ["name"] + [c for c in df.columns if c not in ("name", "price_change", "volume_change")] + ["price_change", "volume_change"]
 
-        df = df.iloc[cols]
+        df = df[cols]
         file_loc = Path(target_path / file_name)
         df.to_csv(file_loc, index=False)
