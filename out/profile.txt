@@ -1,0 +1,4 @@
+=== FILE PROFILE ===
+File Size: 2.8M
+Row Count: 37461
+Commands Used: 'ls -lh' (for size), 'wc -l' (for row count)
