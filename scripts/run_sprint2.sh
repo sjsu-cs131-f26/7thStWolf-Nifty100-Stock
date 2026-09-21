@@ -33,4 +33,29 @@ echo "Running Command: $CMD2"
 eval "$CMD2" > "$OUT_DIR/profile.txt"
 cat "$OUT_DIR/profile.txt"
 
+echo ""
+echo "======================================================================"
+echo " Running Pipeline #3: Top 10 Dates based on Closing price"
+echo " Description: Contains dates and closing price sorted from highest to lowest"
+echo " Output: $OUT_DIR/top10_date.txt"
+echo "======================================================================"
+
+CMD3="tail -n +2 \"$TARGET_FILE\" | cut -d, -f2,6 | sort -t, -k2,2nr | head -n 10"
+echo "Running Command: $CMD3"
+eval "$CMD3" > "$OUT_DIR/top10_date.txt"
+cat "$OUT_DIR/top10_date.txt"
+
+echo ""
+echo "======================================================================"
+echo " Running Pipeline #4: Skinny Table of Closing price and Volume"
+echo " Description: Contains unique closing price and volume"
+echo " Output: $OUT_DIR/skinny_unique.csv"
+echo "======================================================================"
+
+CMD4="tail -n +2 \"$TARGET_FILE\" | cut -d, -f6,7 | sort -u"
+echo "Running Command: $CMD4"
+eval "$CMD3" > "$OUT_DIR/skinny_unique.csv"
+cat "$OUT_DIR/skinny_unique.csv" | head -n 10
+
+echo ""
 echo "======================================================================"
