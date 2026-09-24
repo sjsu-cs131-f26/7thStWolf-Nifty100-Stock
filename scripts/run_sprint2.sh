@@ -59,3 +59,24 @@ cat "$OUT_DIR/skinny_unique.csv" | head -n 10
 
 echo ""
 echo "======================================================================"
+echo " Running Pipeline #5: Frequency Table for Price Change"
+echo " Description: Contains frequency number for the Price Change"
+echo " Output: $OUT_DIR/freq_price_changes.txt"
+echo "======================================================================"
+
+CMD5="cut -d',' -f8 \"$TARGET_FILE\" | tail -n +2 | sort | uniq -c"
+echo "Running Command: $CMD5"
+eval "$CMD5" > "$OUT_DIR/freq_price_changes.txt"
+cat "$OUT_DIR/freq_price_changes.txt"
+
+echo ""
+echo "======================================================================"
+echo " Running Pipeline #6: Frequency Table for Price Change"
+echo " Description: Contains frequency number of increased price change by month"
+echo " Output: $OUT_DIR/freq_price_increases_by_month.txt"
+echo "======================================================================"
+
+CMD6="tail -n +2 \"$TARGET_FILE\" | cut -d, -f2,8 | grep -E ",Decreased$" | cut -c6-7 | sort | uniq -c| sort -rn"
+echo "Running Command: $CMD6"
+eval "$CMD6" > "$OUT_DIR/freq_price_increases_by_month.txt"
+cat "$OUT_DIR/freq_price_changes.txt"
