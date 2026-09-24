@@ -54,8 +54,13 @@ echo "======================================================================"
 
 CMD4="tail -n +2 \"$TARGET_FILE\" | cut -d, -f6,7 | sort -u"
 echo "Running Command: $CMD4"
-eval "$CMD3" > "$OUT_DIR/skinny_unique.csv"
+eval "$CMD4" > "$OUT_DIR/skinny_unique.csv"
 cat "$OUT_DIR/skinny_unique.csv" | head -n 10
 
 echo ""
 echo "======================================================================"
+echo "Running Pipeline #5: Frequency of Price Changes"
+{ time (tail -n +2 "$TARGET_FILE" | cut -d, -f8 | sort | uniq -c | sort -nr | tee "$OUT_DIR/freq_price_change.txt"); } 2>> "$OUT_DIR/timing.txt"
+echo "Running Pipeline #6: Frequency of Volume Changes"
+{ time (tail -n +2 "$TARGET_FILE" | cut -d, -f9 | sort | uniq -c | sort -nr | tee "$OUT_DIR/freq_volume_change.txt"); } 2>> "$OUT_DIR/timing.txt"
+
