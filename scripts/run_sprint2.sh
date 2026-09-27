@@ -12,14 +12,14 @@ TARGET_FILE="$REPO_ROOT/data/samples/TMCV_minute.csv"
 
 echo "======================================================================"
 echo " Running Pipeline #1: Filter Active Price Movements"
-echo " Description: Extended-regex filter for price changes, followed by count"
-echo " Output: $OUT_DIR/filter_.txt"
+echo " Description: Extended-regex filter for price changes, followed by count of total movements in price"
+echo " Output: $OUT_DIR/filter_price_movements.txt"
 echo "======================================================================"
 
 CMD1="grep -E \"Increased|Decreased\" \"$TARGET_FILE\" | wc -l"
-echo "Running Command: $CMD1"
-eval "$CMD1" > "$OUT_DIR/filter_.txt"
-cat "$OUT_DIR/filter_.txt"
+{ time ( eval "$CMD1" > "$OUT_DIR/filter_price_movements.txt" ); } 2>> "$OUT_DIR/timing.txt"
+echo "Total Price Movements:"
+cat "$OUT_DIR/filter_price_movements.txt"
 
 echo ""
 echo "======================================================================"
@@ -29,8 +29,7 @@ echo " Output: $OUT_DIR/profile.txt"
 echo "======================================================================"
 
 CMD2="echo \"=== FILE PROFILE ===\" && echo \"File Size: \$(ls -lh \"$TARGET_FILE\" | awk '{print \$5}')\" && echo \"Row Count: \$(wc -l < \"$TARGET_FILE\")\" && echo \"Commands Used: 'ls -lh' (for size), 'wc -l' (for row count)\""
-echo "Running Command: $CMD2"
-eval "$CMD2" > "$OUT_DIR/profile.txt"
+{ time (eval "$CMD2" > "$OUT_DIR/profile.txt"); } 2>> "$OUT_DIR/timing.txt"
 cat "$OUT_DIR/profile.txt"
 
 echo ""
@@ -41,8 +40,7 @@ echo " Output: $OUT_DIR/top10_date.txt"
 echo "======================================================================"
 
 CMD3="tail -n +2 \"$TARGET_FILE\" | cut -d, -f2,6 | sort -t, -k2,2nr | head -n 10"
-echo "Running Command: $CMD3"
-eval "$CMD3" > "$OUT_DIR/top10_date.txt"
+{ time ( eval "$CMD3" > "$OUT_DIR/top10_date.txt" ); } 2>> "$OUT_DIR/timing.txt"
 cat "$OUT_DIR/top10_date.txt"
 
 echo ""
@@ -53,8 +51,7 @@ echo " Output: $OUT_DIR/skinny_unique.csv"
 echo "======================================================================"
 
 CMD4="tail -n +2 \"$TARGET_FILE\" | cut -d, -f6,7 | sort -u"
-echo "Running Command: $CMD4"
-eval "$CMD4" > "$OUT_DIR/skinny_unique.csv"
+{ time ( eval "$CMD4" > "$OUT_DIR/skinny_unique.csv" ); } 2>> "$OUT_DIR/timing.txt"
 cat "$OUT_DIR/skinny_unique.csv" | head -n 10
 
 echo ""
