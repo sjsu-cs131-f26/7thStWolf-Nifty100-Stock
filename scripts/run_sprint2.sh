@@ -61,6 +61,6 @@ echo ""
 echo "======================================================================"
 echo "Running Pipeline #5: Frequency of Price Changes"
 { time (tail -n +2 "$TARGET_FILE" | cut -d, -f8 | sort | uniq -c | sort -nr | tee "$OUT_DIR/freq_price_change.txt"); } 2>> "$OUT_DIR/timing.txt"
-echo "Running Pipeline #6: Frequency of Volume Changes"
-{ time (tail -n +2 "$TARGET_FILE" | cut -d, -f9 | sort | uniq -c | sort -nr | tee "$OUT_DIR/freq_volume_change.txt"); } 2>> "$OUT_DIR/timing.txt"
+echo "Running Pipeline #6: Frequency of Price Increases by Month"
+{ time (tail -n +2 "$TARGET_FILE" | cut -d, -f2,8 | grep -E ",Increased$" | cut -c6-7 | sort | uniq -c| sort -rn | tee "$OUT_DIR/freq_price_increases_by_month.txt"); } 2>> "$OUT_DIR/timing.txt"
 
