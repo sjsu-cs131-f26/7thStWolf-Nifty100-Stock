@@ -4,11 +4,11 @@
 ## Team Members of The 7th St Wolf
 | Name | Sprint 1 | Sprint 2 | Sprint 3 | Sprint 4 | Sprint 5 |
 |----------|----------|----------|----------|----------|----------|
-| Devarsh Shroff | PM  | DE  | -  | -  | -  |
-| Vakeesan Moorthy  | DS  | PM  | -  | -  | -  |
-| Rishil Nilesh Patel  | DE  | DE  | -  | -  | -  |
-| Jeremy Lim  | DE | DE | -  | -  | -  |
-| Aydan Kaneshiro  | DE  | DS  | -  | -  | -  |
+| Devarsh Shroff | PM  | DE  | DS  | -  | -  |
+| Vakeesan Moorthy  | DS  | PM  | DE  | -  | -  |
+| Rishil Nilesh Patel  | DE  | DE  | PM  | -  | -  |
+| Jeremy Lim  | DE | DE | DE | -  | -  |
+| Aydan Kaneshiro  | DE  | DS  | DE  | -  | -  |
 
 
 ## Dataset Choice
