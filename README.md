@@ -6,9 +6,9 @@
 |----------|----------|----------|----------|----------|----------|
 | Devarsh Shroff | PM  | DE  | DS  | -  | -  |
 | Vakeesan Moorthy  | DS  | PM  | DE  | -  | -  |
-| Rishil Nilesh Patel  | DE  | DE  | PM  | -  | -  |
-| Jeremy Lim  | DE | DE | DE | -  | -  |
-| Aydan Kaneshiro  | DE  | DS  | DE  | -  | -  |
+| Rishil Nilesh Patel  | DE  | DE  | DE  | -  | -  |
+| Jeremy Lim  | DE | DE | DS | -  | -  |
+| Aydan Kaneshiro  | DE  | DS  | PM  | -  | -  |
 
 
 ## Dataset Choice
