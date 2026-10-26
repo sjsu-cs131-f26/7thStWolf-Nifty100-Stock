@@ -216,3 +216,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# files created while processing of the pa3
+/pa3/work/
+/pa3/out/
