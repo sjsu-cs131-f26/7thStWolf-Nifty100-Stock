@@ -1,0 +1,1 @@
+*/1 * * * * /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/scripts/7thStWolf-Nifty100-Stock/pa3/scripts/run_scheduled.sh >> /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/scripts/7thStWolf-Nifty100-Stock/pa3/logs/cron.log 2>&1

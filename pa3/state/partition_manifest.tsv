@@ -1,0 +1,5 @@
+partition_id	path
+1	/mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/data/partitions/TATACONSUM_partition.parquet
+2	/mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/data/partitions/TATAPOWER_partition.parquet
+3	/mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/data/partitions/ULTRACEMCO_partition.parquet
+4	/mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/data/partitions/ZYDUSLIFE_partition.parquet

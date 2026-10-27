@@ -1,0 +1,48 @@
+
+# Partition Rule
+The Rule we used was stock name. Our Dataset has over a 100 stocks. So we decided to partition our dataset by stock name
+
+# Excerpt From Manifest
+
+# Cron Entry
+
+Due to midterm and timing conflict, we didn't have three days to run the script.
+
+If we wanted to run it daily, we would have used a cron of "30 10 * * *" to run it at 10.30 Am Every day.
+
+However, we didn't have the time so we used a cron of "*/1 * * * *" to make it run every minute.
+
+The Cron code of * * * * * represents minute, hour, day, month and Day of the week respectively.
+
+
+# Crontab Output
+
+Running crontab -l returns:
+
+[vakeesanm@sjsu pa3]$ crontab -l
+*/1 * * * * /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/scripts/7thStWolf-Nifty100-Stock/pa3/scripts/run_scheduled.sh >> /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/scripts/7thStWolf-Nifty100-Stock/pa3/logs/cron.log 2>&1
+
+# Time Stamped Logs of Runs
+/bin/sh: /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/scripts/7thStWolf-Nifty100-Stock/pa3/scripts/run_scheduled.sh: Permission denied
+[2026-10-27 00:39:01] Scheduled Analysis of Partition 1 for stock /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/data/partitions/TATACONSUM_partition.parquet has begun
+[2026-10-27 00:39:01] Scheduled Analysis of Partition 1 for stock /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/data/partitions/TATACONSUM_partition.parquet has ended
+[2026-10-27 00:40:08] Scheduled Analysis of Partition 2 for stock /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/data/partitions/TATAPOWER_partition.parquet has begun
+[2026-10-27 00:40:08] Scheduled Analysis of Partition 2 for stock /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/data/partitions/TATAPOWER_partition.parquet has ended
+[2026-10-27 00:41:02] Scheduled Analysis of Partition 3 for stock /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/data/partitions/ULTRACEMCO_partition.parquet has begun
+[2026-10-27 00:41:02] Scheduled Analysis of Partition 3 for stock /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/data/partitions/ULTRACEMCO_partition.parquet has ended
+[2026-10-27 00:42:02] Scheduled Analysis of Partition 4 for stock /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/data/partitions/ZYDUSLIFE_partition.parquet has begun
+[2026-10-27 00:42:02] Scheduled Analysis of Partition 4 for stock /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/data/partitions/ZYDUSLIFE_partition.parquet has ended
+
+# Partition outputs and modification time
+The Outputs of each run was {stock_name}_Analysis.tsv; So our final outputs were TATACONSUM_Analysis.tsv  TATAPOWER_Analysis.tsv  ULTRACEMCO_Analysis.tsv  ZYDUSLIFE_Analysis.tsv. From our benchmarking task, we found the parquet analysis, in about ~0.1 seconds. So it makes sense that each run started and ended in the same second. 
+
+# Success & Exit Status
+
+Each call was successful ran and return a exit code of 1.
+[2026-10-27 00:39:01] Partition 1 for stock /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/data/partitions/TATACONSUM_partition.parquet completed
+[2026-10-27 00:40:08] Partition 2 for stock /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/data/partitions/TATAPOWER_partition.parquet completed
+[2026-10-27 00:41:02] Partition 3 for stock /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/data/partitions/ULTRACEMCO_partition.parquet completed
+[2026-10-27 00:42:02] Partition 4 for stock /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/data/partitions/ZYDUSLIFE_partition.parquet completed
+
+# Cron Disabled
+I successfully removed the cron job from the crontab after testing
