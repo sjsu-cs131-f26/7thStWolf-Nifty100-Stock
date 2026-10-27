@@ -1,0 +1,16 @@
+implementation	storage_format	run	input_rows	input_bytes	real_seconds	result_verified
+shell_text	.tsv	1	-1		0.001	FALSE
+duckdb_text	.tsv	1	-1		run_benchmark.sh: line 40: sql/analysis_text.sql: No such file or directory
+0.000	FALSE
+duckdb_parquet	.parquet	1	-1		run_benchmark.sh: line 42: sql/analysis_parquet.sql: No such file or directory
+0.000	FALSE
+shell_text	.tsv	2	-1		0.002	FALSE
+duckdb_text	.tsv	2	-1		run_benchmark.sh: line 40: sql/analysis_text.sql: No such file or directory
+0.000	FALSE
+duckdb_parquet	.parquet	2	-1		run_benchmark.sh: line 42: sql/analysis_parquet.sql: No such file or directory
+0.000	FALSE
+shell_text	.tsv	3	-1		0.002	FALSE
+duckdb_text	.tsv	3	-1		run_benchmark.sh: line 40: sql/analysis_text.sql: No such file or directory
+0.000	FALSE
+duckdb_parquet	.parquet	3	-1		run_benchmark.sh: line 42: sql/analysis_parquet.sql: No such file or directory
+0.000	FALSE
