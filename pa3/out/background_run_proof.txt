@@ -1,0 +1,26 @@
+# Launched Command
+nohup bash -c "scripts/run_pipeline.sh pa3/data/sample/sample.tsv; echo \$? > logs/exit_code.txt" > "logs/background_run.log" 2>&1 &
+
+## PID & JOB
+PID: 2476147
+Job: [1]+ 2476147 Running                 nohup bash -c "$CMD; echo \$? > logs/exit_code.txt" > "$LOG" 2>&1 &
+
+## PS Snapshot
+    PID    PPID STAT     ELAPSED CMD
+2476147 2476140 S          00:01 bash -c scripts/run_pipeline.sh pa3/data/sample/sample.tsv; echo $? > logs/exit_code.txt
+
+## Log tail
+nohup: ignoring input
+/mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/scripts/7thStWolf-Nifty100-Stock/pa3/data/sample/sample.tsv
+[2026-10-26 23:58:37] Input: /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/scripts/7thStWolf-Nifty100-Stock/pa3/data/sample/sample.tsv
+[2026-10-26 23:58:37] Stage 1/5: prepare and validate analysis-ready TSV
+[2026-10-26 23:59:09] Stage 2/5: run shell analysis
+[2026-10-26 23:59:15] Stage 3&4/5: build Parquet and Run all both duckdb Anaylsis
+[2026-10-26 23:59:16] DUCKDB Stage successful
+[2026-10-26 23:59:16] Stage 5/5: compare results
+[2026-10-26 23:59:16] All three analysis paths agree
+[2026-10-26 23:59:16] Pipeline completed successfully
+
+## Completion Evidence
+Exit Status: 0
+Exit file:   0

@@ -18,7 +18,9 @@ if [[ "$INPUT" != /* ]]; then
   INPUT="$REPO_DIR/$INPUT"
 fi
 
+echo "$INPUT"
 cd -- "$PA3_DIR"
+
 mkdir -p work out logs out/partitions state/completed
 : > logs/pipeline.log
 
@@ -39,23 +41,11 @@ if ! bash scripts/run_shell_analysis.sh work/analysis_ready.tsv >>logs/pipeline.
   fail "Shell analysis stage failed"
 fi
 
-log "Stage 3/5: build Parquet"
-if "$DUCKDB" -batch < sql/build_parquet.sql >>logs/duckdb_build.log 2>&1; then
-  log "Parquet build succeeded"
+log "Stage 3&4/5: build Parquet and Run all both duckdb Anaylsis"
+if  bash scripts/task_4_db_pipeline.sh >>logs/pipeline.log 2>&1; then
+	log "DUCKDB Stage successful"
 else
-  fail "Parquet build failed; see logs/duckdb_build.log"
-fi
-
-log "Stage 4/5: analyze TSV and Parquet with DuckDB"
-if "$DUCKDB" -batch < sql/analysis_text.sql >>logs/duckdb_text.log 2>&1; then
-  log "DuckDB text analysis succeeded"
-else
-  fail "DuckDB text analysis failed; see logs/duckdb_text.log"
-fi
-if "$DUCKDB" -batch < sql/analysis_parquet.sql >>logs/duckdb_parquet.log 2>&1; then
-  log "DuckDB Parquet analysis succeeded"
-else
-  fail "DuckDB Parquet analysis failed; see logs/duckdb_parquet.log"
+	fail "Duckdb stage failed"
 fi
 
 log "Stage 5/5: compare results"

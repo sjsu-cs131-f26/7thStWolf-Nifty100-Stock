@@ -1,0 +1,10 @@
+implementation	storage_format	run	input_rows	input_bytes	real_seconds	result_verified
+shell_text	.tsv	1	1033587	49605893	6.336	TRUE
+duckdb_text	.tsv	1	1033587	49605893	0.325	TRUE
+duckdb_parquet	.parquet	1	1033587	7536646	0.127	TRUE
+shell_text	.tsv	2	1033587	49605893	6.369	TRUE
+duckdb_text	.tsv	2	1033587	49605893	0.321	TRUE
+duckdb_parquet	.parquet	2	1033587	7536646	0.135	TRUE
+shell_text	.tsv	3	1033587	49605893	6.316	TRUE
+duckdb_text	.tsv	3	1033587	49605893	0.319	TRUE
+duckdb_parquet	.parquet	3	1033587	7536646	0.114	TRUE
