@@ -1,0 +1,29 @@
+Team Name: Wolf of The 7th Street
+
+GitHub Repo URL: 
+https://github.com/sjsu-cs131-f26/7thStWolf-Nifty100-Stock
+
+Path to pa3/: 
+cd /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/scripts/7thStWolf-Nifty100-Stock/pa3
+
+Command used to run the committed sample: bash pa3/scripts/background_exe.sh
+
+Path to the Main Pull Request:
+cd /sjsu-cs131-f26/7thStWolf-Nifty100-Stock/commits/main/
+
+URL for Team Board:
+https://docs.google.com/spreadsheets/d/1YEvWa5adA3sNDbaax59ER2YFxVO7ba8ewUgEzhEdeAg/edit?gid=0#gid=0 
+
+Names of the shell, DuckDB-text, DuckDB-Parquet, benchmark, scheduled-partition, and final-analysis artifacts:
+shell: pa3/run_shell_analysis.sh
+DuckDB-text:sql/analysis_text.sql
+DuckDB-Parquet: sql/analysis_parquet.sql
+benchmark: scripts/run_benchmark.sh
+scheduled-partition: scripts/run_partition.sh
+final-analysis artifacts: out/final_analysis.tsv
+
+
+Path to docs/technical_report.pdf:
+cd /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/scripts/7thStWolf-Nifty100-Stock/pa3/docs/
+
+The full dataset and large full-run outputs are not yet committed.
