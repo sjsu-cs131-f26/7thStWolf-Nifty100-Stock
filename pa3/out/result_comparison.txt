@@ -1,0 +1,3 @@
+Comparison 1: shell vs DuckDB text
+Comparison 2: DuckDB text vs DuckDB Parquet
+RESULT: all three analysis paths agree

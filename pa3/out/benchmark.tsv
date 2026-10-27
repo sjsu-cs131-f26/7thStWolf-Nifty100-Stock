@@ -1,0 +1,10 @@
+implementation	storage_format	run	input_rows	input_bytes	real_seconds	result_verified
+shell	text	1	1033587	49605893	6.375	TRUE
+duckdb	text	1	1033587	49605893	0.372	TRUE
+duckdb	parquet	1	1033587	7536646	0.137	TRUE
+shell	text	2	1033587	49605893	6.325	TRUE
+duckdb	text	2	1033587	49605893	0.320	TRUE
+duckdb	parquet	2	1033587	7536646	0.133	TRUE
+shell	text	3	1033587	49605893	6.316	TRUE
+duckdb	text	3	1033587	49605893	0.317	TRUE
+duckdb	parquet	3	1033587	7536646	0.137	TRUE
