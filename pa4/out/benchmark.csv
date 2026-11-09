@@ -1,0 +1,7 @@
+implementation,environment,input_rows,input_bytes,format,run,elapsed_seconds,output_rows,result_verified
+PySpark,Colab,1033587,87079423,tsv,1,3.6132,12,True
+PySpark,Colab,1033587,87079423,tsv,2,2.8331,12,True
+PySpark,Colab,1033587,87079423,tsv,3,2.3469,12,True
+DuckDB,Colab,1033587,87079423,tsv,1,0.6216,12,True
+DuckDB,Colab,1033587,87079423,tsv,2,0.5415,12,True
+DuckDB,Colab,1033587,87079423,tsv,3,0.5593,12,True
