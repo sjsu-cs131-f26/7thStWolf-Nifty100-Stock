@@ -1,0 +1,22 @@
+Team Name: Wolf of The 7th Street
+
+GitHub Repo URL: 
+https://github.com/sjsu-cs131-f26/7thStWolf-Nifty100-Stock
+
+
+Path to pa4/: 
+cd /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/scripts/7thStWolf-Nifty100-Stock/pa4
+
+URL for Team Board:
+https://docs.google.com/spreadsheets/d/1YEvWa5adA3sNDbaax59ER2YFxVO7ba8ewUgEzhEdeAg/edit?gid=0#gid=0 
+
+Names of the output artifacts found in out/:
+Analysis 1: analysis_1.csv
+Analysis 2: analysis_2.csv
+Benchmark: benchmark.csv
+Quality Checks: quality_checks.csv
+
+Path to docs/technical_report.pdf:
+cd /mnt/scratch/CS131_jelenag/projects/team08_sec2_Fall2026/scripts/7thStWolf-Nifty100-Stock/pa4/docs/
+
+The full dataset and large full-run outputs are not yet committed.
