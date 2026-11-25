@@ -49,43 +49,24 @@ def create_spark_session(shuffle_partitions):
 
 def load_minute_data(spark, input_path):
 
-    csv_path = input_path.rstrip("/") + "/*.csv"
+    print(f"Reading Parquet dataset: {input_path}")
 
-    data = (
-        spark.read
-        .option("header", True)
-        .option("inferSchema", False)
-        .csv(csv_path)
-    )
+    df = spark.read.parquet(input_path)
 
     # Check if all required columns exist
     required_columns = ["date", "open", "high", "low", "close", "volume"]
 
     missing = [
         column for column in required_columns
-        if column not in data.columns
+        if column not in df.columns
     ]
 
+    missing = [c for c in required_columns if c not in df.columns]
+
     if missing:
-        raise ValueError(
-        f"Missing required CSV columns: {missing}"
-    )
+        raise ValueError(f"Missing required columns: {missing}")
 
-    # Extract stock symbol from filename (APOLLOHOSP_minute.csv -> APOLLOHOSP)
-    data = data.withColumn(
-        "name",
-        F.regexp_replace(
-            F.regexp_extract(
-                F.input_file_name(),
-                r"([^/]+)\.csv$",
-                1
-            ),
-            r"_minute$",
-            ""
-        )
-    )
-
-    return data
+    return df.select(*required_columns)
 
 # Convert one stock's minute-level records into daily open, high, low, close, volume data
 # Calculate price change (change_pc) using the previous trading day's close
