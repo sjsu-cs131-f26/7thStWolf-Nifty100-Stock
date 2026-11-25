@@ -1,7 +1,4 @@
 import argparse
-import re
-import sys
-import time
 
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
@@ -16,7 +13,7 @@ def parse_args():
     parser.add_argument(
         "--input",
         required=True,
-        help="GCS folder containing the stock CSV files"
+        help="GCS folder containing the stock Parquet dataset"
     )
 
     parser.add_argument(
@@ -54,14 +51,12 @@ def load_minute_data(spark, input_path):
     df = spark.read.parquet(input_path)
 
     # Check if all required columns exist
-    required_columns = ["date", "open", "high", "low", "close", "volume"]
+    required_columns = ["name", "date", "open", "high", "low", "close", "volume"]
 
     missing = [
         column for column in required_columns
         if column not in df.columns
     ]
-
-    missing = [c for c in required_columns if c not in df.columns]
 
     if missing:
         raise ValueError(f"Missing required columns: {missing}")
@@ -134,28 +129,18 @@ def convert_stock_to_daily(stock_data):
     )
     return daily
 
-# Analyze one stock's daily percentage changes by calendar month
-def analyze_stock(daily_data):
+# Analyze daily percentage change by calendar month across all stocks
+def analyze_all_stocks(daily_data):
 
     monthly = (
         daily_data
         .withColumn("month_num", F.month("date"))
-        .groupBy("name", "month_num")
+        .groupBy("month_num")
         .agg(
-            F.count("change_pc").alias("n_days"),
-            F.round(F.avg("change_pc"), 4).alias("avg_change_pc"),
-            F.round(F.stddev("change_pc"), 4).alias("std_change_pc"),
-            F.round(
-                F.avg(
-                    F.when(
-                        F.col("change_pc").isNotNull(),
-                        (F.col("change_pc") > 0).cast("double")
-                    )
-                ),
-                4
-            ).alias("pct_up_days")
+            F.count("change_pc").alias("n_observations"),
+            F.round(F.avg("change_pc"), 4).alias("avg_change_pc")
         )
-        .orderBy("name", "month_num")
+        .orderBy("month_num")
     )
 
     return monthly
@@ -193,7 +178,6 @@ def main():
 
         # Process each stock individually
         daily_results = []
-        analysis_results = []
 
         for stock_name in stock_names:
             print("Processing stock:", stock_name)
@@ -206,12 +190,8 @@ def main():
             # Convert minute records into daily records
             daily_stock = convert_stock_to_daily(one_stock)
 
-            # Analyze daily percentage changes
-            monthly_stock = analyze_stock(daily_stock)
-
             # Save the results for combining after the loop
             daily_results.append(daily_stock)
-            analysis_results.append(monthly_stock)
 
         # Combine results from all stocks
         if daily_results:
@@ -220,32 +200,24 @@ def main():
             for result in daily_results[1:]:
                 all_daily_data = all_daily_data.unionByName(result)
 
-            all_daily_data = all_daily_data.orderBy("name", "date")
-
-            print("Combined daily data:")
-            all_daily_data.show(10, truncate=False)
-
-             # Save daily level prepared data to GCS
+            # Save daily level prepared data
             daily_output_path = args.output.rstrip("/") + "/daily_data"
+            
             all_daily_data.write \
                 .mode("overwrite") \
                 .parquet(daily_output_path)
 
-        if analysis_results:
-            final_analysis = analysis_results[0]
-
-            for result in analysis_results[1:]:
-                final_analysis = final_analysis.unionByName(result)
-
-            final_analysis = final_analysis.orderBy("name", "month_num")
+            # Calculate monthly averages across all stocks
+            final_analysis = analyze_all_stocks(all_daily_data)
 
             print("Final monthly analysis:")
-            final_analysis.show(30, truncate=False)
+            final_analysis.show(12, truncate=False)
 
             print("Total monthly analysis rows:", final_analysis.count())
 
-            # Save final monthly analysis as CSV
+            # Save final monthly analysis
             analysis_output_path = args.output.rstrip("/") + "/monthly_analysis"
+            
             final_analysis.coalesce(1).write \
                 .option("header", True) \
                 .mode("overwrite") \
