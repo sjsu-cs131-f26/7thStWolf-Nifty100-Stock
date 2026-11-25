@@ -244,6 +244,12 @@ def main():
             print("Combined daily data:")
             all_daily_data.show(10, truncate=False)
 
+             # Save daily level prepared data to GCS
+            daily_output_path = args.output.rstrip("/") + "/daily_data"
+            all_daily_data.write \
+                .mode("overwrite") \
+                .parquet(daily_output_path)
+
         if analysis_results:
             final_analysis = analysis_results[0]
 
@@ -257,6 +263,12 @@ def main():
 
             print("Total monthly analysis rows:", final_analysis.count())
 
+            # Save final monthly analysis as CSV
+            analysis_output_path = args.output.rstrip("/") + "/monthly_analysis"
+            final_analysis.coalesce(1).write \
+                .option("header", True) \
+                .mode("overwrite") \
+                .csv(analysis_output_path)
 
     finally:
         spark.stop()
