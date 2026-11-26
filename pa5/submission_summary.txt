@@ -9,7 +9,7 @@ Team Members & Roles:
 - Aydan Kaneshiro (DE): Created and ran PySpark pipeline for full-dataset stock analysis on Google Cloud Dataproc
 - Rishil Patel (PM): Created benchmark and tested both pipelines
 
-Code Commit: ab00b7c
+Code Commit: c858925
 
 Report path: pa5/docs/final_report.pdf
 
