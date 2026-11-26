@@ -5,7 +5,6 @@ import csv
 import os
 import time
 from pathlib import Path
-import duckdb
 
 # Keep timing output compatible with the PA3 workflow.
 BENCHMARK_FIELDS = ["approach", "run", "input_rows", "input_bytes",
@@ -29,9 +28,9 @@ def parse_args():
     parser = argparse.ArgumentParser(description = "Analyze stock_combined.parquet by stock and month.")
     parser.add_argument("data_path",help = "GCS path to stock_combined.parquet")
     parser.add_argument("--threads", type = int, default=None)
-    parser.add_argument("--output-dir", default = "pa5/out/duckdb_results")
+    parser.add_argument("--output-dir", default = "pa5/out/duckdb")
     parser.add_argument("--benchmark-runs", type = int, default = 3)
-    parser.add_argument("--benchmark-output", default = "pa5/out/duckdb_benchmark.csv")
+    parser.add_argument("--benchmark-output", default = "pa5/out/benchmark_full.csv")
     parser.add_argument("--expected-result")
     parser.add_argument("--comparison-output", default = "pa5/out/comparison.txt")
     parser.add_argument("--input-bytes", type = int, default = None)
@@ -66,7 +65,7 @@ def load_minute_data(con, path):
     con.execute("""
         CREATE OR REPLACE TEMP TABLE minute_input AS
         SELECT
-            CAST(name AS VARCHAR) AS symbol,
+            trim(CAST(name AS VARCHAR)) AS symbol,
             try_cast(CAST(date AS VARCHAR) AS TIMESTAMP) AS ts,
             try_cast(CAST(open AS VARCHAR) AS DOUBLE) AS open,
             try_cast(CAST(high AS VARCHAR) AS DOUBLE) AS high,
@@ -78,11 +77,11 @@ def load_minute_data(con, path):
         """, [path])
     return int(con.execute("SELECT COUNT(*) FROM minute_input").fetchone()[0])
 
-# Function to convert one stock to daily data and calculate all monthly metrics.
-def process_stock(con, symbol):
-    # SQL below is the same PA4 minute-to-daily conversion for one stock.
+# Function to convert every stock's minute into daily OHLCV row.
+def build_daily(con):
+    # SQL calculates daily OHLCV, previous close, price_change and change_pc.
     con.execute("""
-        CREATE OR REPLACE TEMP TABLE daily_stock AS
+        CREATE OR REPLACE TEMP TABLE daily_all AS
         WITH daily AS (
             SELECT
                 symbol, CAST(ts AS DATE) AS date,
@@ -93,13 +92,14 @@ def process_stock(con, symbol):
                 sum(volume) AS volume,
                 count(*) AS minute_rows
             FROM minute_input
-            WHERE symbol = ? AND ts IS NOT NULL
+            WHERE ts IS NOT NULL
             GROUP BY symbol, CAST(ts AS DATE)
         ), previous AS (
-            SELECT *,
-                   lag(close) OVER (
-                       PARTITION BY symbol ORDER BY date
-                   ) AS prev_close
+            SELECT
+                daily.*,
+                lag(close) OVER (
+                    PARTITION BY symbol ORDER BY date
+                ) AS prev_close
             FROM daily
         )
         SELECT
@@ -115,16 +115,23 @@ def process_stock(con, symbol):
                 ELSE round((close - prev_close) / prev_close * 100.0, 2)
             END AS change_pc
         FROM previous
-        ORDER BY date
-        """, [symbol])
-    con.execute("INSERT INTO daily_all SELECT * FROM daily_stock")
+    """)
 
+
+# Function to take all stock-price changes for a month and calculate the summary.
+def process_month(con, month):
     # SQL below is the one stock's analysis.
+    con.execute("""
+        CREATE OR REPLACE TEMP TABLE month_daily AS
+        SELECT *
+        FROM daily_all
+        WHERE EXTRACT(MONTH FROM date) = ?
+        """, [month],)
     con.execute("""
         INSERT INTO stock_analysis
         SELECT
             symbol,
-            CAST(EXTRACT(MONTH FROM date) AS INTEGER) AS month,
+            CAST(? AS INTEGER) AS month,
             COUNT(change_pc) AS n_days,
             AVG(change_pc) AS avg_change_pc,
             STDDEV_SAMP(change_pc) AS std_change_pc,
@@ -134,35 +141,30 @@ def process_stock(con, symbol):
                     THEN CAST(change_pc > 0 AS DOUBLE)
                 END
             ) AS pct_up_days
-        FROM daily_stock
-        GROUP BY symbol, CAST(EXTRACT(MONTH FROM date) AS INTEGER)
+        FROM month_daily
+        GROUP BY symbol
         HAVING COUNT(change_pc) > 0
-        """)
+        """, [month],)
 
 # Function use to load the data, loop over every stock, then aggregate all stocks.
 def run_once(con, path):
     input_rows = load_minute_data(con, path)
-    # output file for every stock's daily rows.
-    con.execute("""
-        CREATE OR REPLACE TEMP TABLE daily_all (
-            symbol VARCHAR, date DATE, open DOUBLE, high DOUBLE, low DOUBLE,
-            close DOUBLE, volume DOUBLE, minute_rows BIGINT,
-            price_change VARCHAR, change_pc DOUBLE
-        )
-        """)
+    build_daily(con)
     # output file for one monthly analysis per stock & month.
     con.execute("""
-        CREATE OR REPLACE TEMP TABLE stock_analysis (
+        CREATE OR REPLACE TEMP TABLE stock_analysis ( -- Per-stock analysis.
             symbol VARCHAR, month INTEGER, n_days BIGINT,
             avg_change_pc DOUBLE, std_change_pc DOUBLE, pct_up_days DOUBLE
         )
         """)
-    # per-stock loop that analyzes each stock once before the final aggregation accross all completed stock month rows.
-    symbols = con.execute(
-        "SELECT DISTINCT symbol FROM minute_input "
-        "WHERE symbol IS NOT NULL ORDER BY symbol"
-    ).fetchall()
-    for (symbol,) in symbols: process_stock(con, symbol)
+    # find each calendar month
+    months = con.execute("""
+        SELECT DISTINCT CAST(EXTRACT(MONTH FROM date) AS INTEGER) AS month
+        FROM daily_all
+        WHERE date IS NOT NULL
+        ORDER BY month
+    """).fetchall()
+    for (month,) in months: process_month(con, month)
     return input_rows, con.execute(FINAL_SQL).fetchall()
 
 # Function use to write daily rows, per-stock metrics, & overall monthly result.
@@ -241,6 +243,7 @@ def main():
     if args.output_dir.startswith("gs://") or args.benchmark_output.startswith("gs://"):
         raise ValueError("DuckDB outputs must be local driver paths")
 
+    import duckdb
     output_dir = Path(args.output_dir)
     input_bytes = args.input_bytes if args.input_bytes is not None else -1
     # first in-memory DuckDB connection.
