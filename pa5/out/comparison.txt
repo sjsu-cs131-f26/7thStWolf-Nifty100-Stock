@@ -1,0 +1,10 @@
+Metric,Value
+Spark Pipeline 1(partition by stock) Row Count,12
+Spark Pipeline 2(partition by Month) Row Count,12
+Rows Only in Dataproc,0
+Rows Only in Local,0
+Sum of n_observations in pipeline 1: 293,617
+Sum of n_observations in pipeline 2: 293,617
+True yearly Average of Change in Pipeline 1: 7.9125%
+True yearly Average of Change in Pipeline 2: 7.9125%
+Full Equivalence Match,True
