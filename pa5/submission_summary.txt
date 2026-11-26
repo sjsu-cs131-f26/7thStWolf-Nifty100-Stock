@@ -1,0 +1,16 @@
+PA5 Submission Summary
+
+Team Repository: https://github.com/sjsu-cs131-f26/7thStWolf-Nifty100-Stock.git
+
+Team Members & Roles:
+- Vakeesan Moorthy (DE): Created ML Pipeline on Google Colab
+- Devarsh Shroff (DS): Created and drafted final report
+- Jeremy Lim (DE): Setup GCS storing all required data, created and ran DuckDB pipeline for full-dataset stock analysis on Google Cloud Dataproc
+- Aydan Kaneshiro (DE): Created and ran PySpark pipeline for full-dataset stock analysis on Google Cloud Dataproc
+- Rishil Patel (PM): Created benchmark and tested both pipelines
+
+Code Commit: ab00b7c
+
+Report path: pa5/docs/final_report.pdf
+
+Link to latest PR: https://github.com/sjsu-cs131-f26/7thStWolf-Nifty100-Stock/pull/24 
