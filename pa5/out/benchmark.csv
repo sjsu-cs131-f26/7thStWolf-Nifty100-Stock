@@ -1,4 +1,7 @@
 implementation,shuffle_partitions,input_rows,input_bytes,elapsed_seconds,status,output_path
-Spark,32,109520923,1336796162,817.40,SUCCESS,gs://cs131teamproject/out/stock-test-20m-1795660582
-Spark,64,109520923,1336796162,1198,SUCCESS,gs://cs131teamproject/out/stock-benchmark-64-1795662197
-Spark,128,109520923,1336796162,1826.91,SUCCESS,gs://cs131teamproject/out/stock-benchmark-128-40m-1795670831
+Spark(Parition by Stock),32,109520923,1336796162,817.40,SUCCESS,gs://cs131teamproject/out/stock-test-20m-1795660582
+Spark(Parition by Stock),32,109520923,1336796162,1198,SUCCESS,gs://cs131teamproject/out/stock-benchmark-64-1795662197
+Spark(Parition by Stock),32,109520923,1336796162,1826.91,SUCCESS,gs://cs131teamproject/out/stock-benchmark-128-40m-1795670831
+Spark(Parition by Month),32,109520923,1336796162,1080,SUCCESS,gs://cs131teamproject/out/stock-test-20m-1795660582
+Spark(Parition by Month),32,109520923,1336796162,741,SUCCESS,gs://cs131teamproject/out/stock-benchmark-64-1795662197
+Spark(Parition by Month),32,109520923,1336796162,697,SUCCESS,gs://cs131teamproject/out/stock-benchmark-128-40m-1795670831
