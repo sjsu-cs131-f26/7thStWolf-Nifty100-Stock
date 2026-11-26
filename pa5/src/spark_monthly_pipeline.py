@@ -253,16 +253,6 @@ def main():
             print("Final monthly analysis:")
             final_analysis.show(12, truncate=False)
 
-            print("Total monthly analysis rows:", final_analysis.count())
-
-            # Save final monthly analysis
-            analysis_output_path = args.output.rstrip("/") + "/monthly_analysis"
-            
-            final_analysis.coalesce(1).write \
-                .option("header", True) \
-                .mode("overwrite") \
-                .csv(analysis_output_path)
-
     finally:
         spark.stop()
 
